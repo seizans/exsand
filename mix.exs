@@ -14,7 +14,8 @@ defmodule Exsand.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger],
+    [applications: [:logger,
+                    :cowboy],
      mod: {Exsand, []}]
   end
 
@@ -28,6 +29,7 @@ defmodule Exsand.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:cowboy, github: "ninenines/cowboy", ref: "45158c1da454b5c7406418afeccaecf54232deeb"}]
+    [{:exrm, "~> 1.0.3"},
+     {:cowboy, github: "ninenines/cowboy", ref: "45158c1da454b5c7406418afeccaecf54232deeb"}]
   end
 end
