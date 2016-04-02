@@ -30,6 +30,7 @@ defmodule Exsand.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [{:exrm, "~> 1.0.3"},
-     {:cowboy, github: "ninenines/cowboy", ref: "45158c1da454b5c7406418afeccaecf54232deeb"}]
+     {:cowboy, github: "ninenines/cowboy", ref: "b7d666cfc746f55b0a72ef8d37f703885099daf7"}]
+     #{:cowboy, github: "ninenines/cowboy", ref: "45158c1da454b5c7406418afeccaecf54232deeb"}]
   end
 end
