@@ -28,6 +28,6 @@ defmodule Exsand.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [{:cowboy, github: "ninenines/cowboy", ref: "45158c1da454b5c7406418afeccaecf54232deeb"}]
   end
 end
