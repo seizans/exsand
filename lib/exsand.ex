@@ -13,7 +13,8 @@ defmodule Exsand do
     Supervisor.start_link(children, opts)
 
     dispatch = :cowboy_router.compile([
-        {:_, [{"/", Exsand.HelloHandler, []}
+        {:_, [{"/", Exsand.HelloHandler, []},
+              {"/ws", Exsand.WsHandler, []}
              ]}
     ])
     {ok, _} = :cowboy.start_http(:exsand,
