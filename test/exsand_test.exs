@@ -24,6 +24,17 @@ defmodule ExsandTest do
     assert "Hello" == response.body
   end
 
+  test "redis" do
+    url = "http://localhost:8080/redis/33"
+    response1 = HTTPoison.get!(url)
+    assert 404 == response1.status_code
+    response2 = HTTPoison.post!(url, :jsone.encode(%{:name => "spam"}))
+    assert 200 == response2.status_code
+    response3 = HTTPoison.get!(url)
+    assert 200 == response3.status_code
+    assert %{"name" => "spam"} == :jsone.decode(response3.body)
+  end
+
   test "websocket" do
     {:ok, pid} = :gun.open('localhost', 8080)
     {:ok, :http} = :gun.await_up(pid)

@@ -7,6 +7,7 @@ defmodule Exsand do
     children = [
       # Define workers and child supervisors to be supervised
       # worker(Exsand.Worker, [arg1, arg2, arg3]),
+      Exsand.Redis.child_spec()
     ]
 
     opts = [strategy: :one_for_one, name: Exsand.Supervisor]
@@ -14,16 +15,17 @@ defmodule Exsand do
 
     dispatch = :cowboy_router.compile([
         {:_, [{"/", Exsand.HelloHandler, []},
+              {"/redis/:id", Exsand.RedisHandler, []},
               {"/ws", Exsand.WsHandler, []}
              ]}
     ])
-    {ok, _} = :cowboy.start_http(:exsand,
-                                 100,
-                                 [{:ip, {0, 0, 0, 0}},
-                                  {:port, 8080},
-                                  {:max_connections, :infinity},
-                                  {:backlog, 1024},
-                                  {:nodelay, :true}],
-                                 [{:env, [{:dispatch, dispatch}]}])
+    {:ok, _} = :cowboy.start_http(:exsand,
+                                  100,
+                                  [{:ip, {0, 0, 0, 0}},
+                                   {:port, 8080},
+                                   {:max_connections, :infinity},
+                                   {:backlog, 1024},
+                                   {:nodelay, :true}],
+                                  [{:env, [{:dispatch, dispatch}]}])
   end
 end
