@@ -5,6 +5,7 @@ defmodule Exsand.Mixfile do
     [app: :exsand,
      version: "0.0.1",
      elixir: "~> 1.2",
+     test_coverage: [tool: Coverex.Task, log: :debug],
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps]
@@ -20,6 +21,7 @@ defmodule Exsand.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [{:exrm, "~> 1.0.3"},
+     {:coverex, "~> 1.4.8", only: :test},
      {:httpoison, "~> 0.8.2", only: [:dev, :test]},
      {:poolboy, "~> 1.5.1"},
      {:eredis, "~> 1.0.8"},
