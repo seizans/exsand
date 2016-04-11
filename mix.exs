@@ -21,6 +21,7 @@ defmodule Exsand.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [{:exrm, "~> 1.0.3"},
+     {:credo, "~> 0.3.11"},
      {:coverex, "~> 1.4.8", only: :test},
      {:httpoison, "~> 0.8.2", only: [:dev, :test]},
      {:poolboy, "~> 1.5.1"},
