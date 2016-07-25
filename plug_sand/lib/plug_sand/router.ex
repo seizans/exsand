@@ -1,5 +1,6 @@
 defmodule PlugSand.Router do
   use Plug.Router
+  use Plug.ErrorHandler
 
   plug Plug.Logger
   plug Plug.Parsers,
@@ -21,5 +22,10 @@ defmodule PlugSand.Router do
 
   match _ do
     send_resp(conn, 404, "oops")
+  end
+
+  defp handle_errors(conn, %{kind: _kind, reason: _reason, stack: _stack} = params) do
+    IO.inspect params
+    send_resp(conn, conn.status, "Something went wrong")
   end
 end
