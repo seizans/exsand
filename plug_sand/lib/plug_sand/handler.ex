@@ -5,4 +5,9 @@ defmodule PlugSand.Handler do
     conn
     |> send_resp(200, "hellooooooooo")
   end
+
+  def post(conn) do
+    conn
+    |> send_resp(200, "posttttt")
+  end
 end
