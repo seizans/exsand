@@ -5,7 +5,7 @@ defmodule PlugSand.Router do
   plug :dispatch
 
   get "/hello" do
-    send_resp(conn, 200, "world")
+    PlugSand.Handler.hello(conn)
   end
 
   match _ do
