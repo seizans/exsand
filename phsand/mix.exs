@@ -22,8 +22,8 @@ defmodule Phsand.Mixfile do
   defp elixirc_paths(_),     do: ["lib", "web"]
 
   defp deps do
-    [{:phoenix, "~> 1.1.4"},
-     {:gettext, "~> 0.9"},
+    [{:phoenix, "~> 1.2"},
+     {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"}]
   end
 end
