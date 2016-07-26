@@ -12,7 +12,7 @@ defmodule PlugSand.Router do
   plug :match
   plug :dispatch
 
-  post "/", do: PlugSand.Handler.dispatch(conn)
+  post "/", do: PlugSand.Handler.dispatch(conn, conn.params)
 
   get "/hello" do
     PlugSand.HelloHandler.hello(conn)
