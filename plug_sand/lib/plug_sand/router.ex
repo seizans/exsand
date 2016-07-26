@@ -37,13 +37,9 @@ defmodule PlugSand.Router do
 
   @spec json(Plug.Conn.t, map) :: Plug.Conn.t
   def json(conn, data) do
-    send_resp(conn, conn.status || 200, "application/json", Poison.encode_to_iodata!(data))
-  end
-
-  defp send_resp(conn, default_status, default_content_type, body) do
     conn
-    |> ensure_resp_content_type(default_content_type)
-    |> send_resp(conn.status || default_status, body)
+    |> ensure_resp_content_type("application/json")
+    |> send_resp(conn.status || 200, Poison.encode_to_iodata!(data))
   end
 
   defp ensure_resp_content_type(%{resp_headers: resp_headers} = conn, content_type) do
