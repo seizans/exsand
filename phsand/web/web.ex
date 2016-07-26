@@ -16,31 +16,11 @@ defmodule Phsand.Web do
   below.
   """
 
-  def model do
-    quote do
-      # Define common model functionality
-    end
-  end
-
   def controller do
     quote do
       use Phoenix.Controller
 
       import Phsand.Router.Helpers
-      import Phsand.Gettext
-    end
-  end
-
-  def view do
-    quote do
-      use Phoenix.View, root: "web/templates"
-
-      # Import convenience functions from controllers
-      import Phoenix.Controller, only: [get_csrf_token: 0, get_flash: 2, view_module: 1]
-
-      import Phsand.Router.Helpers
-      import Phsand.ErrorHelpers
-      import Phsand.Gettext
     end
   end
 
@@ -53,7 +33,6 @@ defmodule Phsand.Web do
   def channel do
     quote do
       use Phoenix.Channel
-      import Phsand.Gettext
     end
   end
 
