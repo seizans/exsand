@@ -14,7 +14,7 @@ defmodule Phsand.Mixfile do
 
   def application do
     [mod: {Phsand, []},
-     applications: [:phoenix, :cowboy, :logger, :gettext]]
+     applications: [:phoenix, :cowboy, :logger]]
   end
 
   # Specifies which paths to compile per environment.
@@ -23,7 +23,6 @@ defmodule Phsand.Mixfile do
 
   defp deps do
     [{:phoenix, "~> 1.2"},
-     {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"}]
   end
 end
