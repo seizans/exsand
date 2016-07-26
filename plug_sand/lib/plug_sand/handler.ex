@@ -1,13 +1,8 @@
 defmodule PlugSand.Handler do
   import Plug.Conn
 
-  def hello(conn) do
+  def dispatch(conn) do
     conn
-    |> send_resp(200, "hellooooooooo")
-  end
-
-  def post(conn) do
-    conn
-    |> send_resp(200, "posttttt")
+    |> send_resp(200, "dispatch")
   end
 end

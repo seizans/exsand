@@ -12,14 +12,16 @@ defmodule PlugSand.Router do
   plug :match
   plug :dispatch
 
+  post "/", do: PlugSand.Handler.dispatch(conn)
+
   get "/hello" do
-    PlugSand.Handler.hello(conn)
+    PlugSand.HelloHandler.hello(conn)
   end
 
   post "/helloo" do
     IO.inspect conn
     IO.inspect conn.params
-    PlugSand.Handler.post(conn)
+    PlugSand.HelloHandler.post(conn)
   end
 
   match _ do
