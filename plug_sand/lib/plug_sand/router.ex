@@ -23,16 +23,20 @@ defmodule PlugSand.Router do
   end
 
   match _ do
-    send_resp(conn, 404, "oops")
+    conn
+    |> put_status(404)
+    |> json(%{error: "NOT FOUND"})
   end
 
   defp handle_errors(conn, %{kind: :error, reason: %Plug.Parsers.UnsupportedMediaTypeError{media_type: media_type}}) do
     Logger.info("#{media_type} is unsupported media type")
-    json(conn, %{error: "#{media_type} is unsupported media type"})
+    conn
+    |> json(%{error: "#{media_type} is unsupported media type"})
   end
   defp handle_errors(conn, %{kind: _kind, reason: _reason, stack: _stack} = params) do
     Logger.info(params)
-    json(conn, %{error: "Something went wrong"})
+    conn
+    |> json(%{error: "Something went wrong"})
   end
 
   @spec json(Plug.Conn.t, map) :: Plug.Conn.t
