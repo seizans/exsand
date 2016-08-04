@@ -1,8 +1,6 @@
 defmodule Phsand.Endpoint do
   use Phoenix.Endpoint, otp_app: :phsand
 
-  socket "/socket", Phsand.UserSocket
-
   if code_reloading? do
     plug Phoenix.CodeReloader
   end
