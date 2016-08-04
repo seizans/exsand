@@ -13,5 +13,6 @@ defmodule Phsand.Endpoint do
     pass: ["application/json"],
     json_decoder: Poison
 
+  plug Plug.Head
   plug Phsand.Router
 end
