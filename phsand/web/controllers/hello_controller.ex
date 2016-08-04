@@ -1,5 +1,5 @@
 defmodule Phsand.HelloController do
-  use Phsand.Web, :controller
+  use Phsand.Controller
 
   def hello(conn, _params) do
     conn
