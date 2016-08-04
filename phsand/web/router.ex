@@ -5,7 +5,7 @@ defmodule Phsand.Router do
     plug :accepts, ["json"]
   end
 
-  scope "", Phsand do
+  scope "/", Phsand do
     pipe_through :api
 
     get  "/hello", HelloController, :hello
