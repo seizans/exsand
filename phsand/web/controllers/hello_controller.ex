@@ -1,5 +1,6 @@
 defmodule Phsand.HelloController do
-  use Phsand.Controller
+  use Phoenix.Controller
+  import Phsand.Router.Helpers
 
   def hello(conn, _params) do
     conn
