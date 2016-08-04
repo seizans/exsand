@@ -13,8 +13,5 @@ defmodule Phsand.Endpoint do
     pass: ["*/*"],
     json_decoder: Poison
 
-  plug Plug.MethodOverride
-  plug Plug.Head
-
   plug Phsand.Router
 end
