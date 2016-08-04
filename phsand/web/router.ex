@@ -1,5 +1,5 @@
 defmodule Phsand.Router do
-  use Phsand.Web, :router
+  use Phoenix.Router
 
   pipeline :api do
     plug :accepts, ["json"]

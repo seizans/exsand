@@ -24,12 +24,6 @@ defmodule Phsand.Web do
     end
   end
 
-  def router do
-    quote do
-      use Phoenix.Router
-    end
-  end
-
   @doc """
   When used, dispatch to the appropriate controller/view/etc.
   """
