@@ -9,8 +9,8 @@ defmodule Phsand.Endpoint do
   plug Plug.Logger
 
   plug Plug.Parsers,
-    parsers: [:urlencoded, :multipart, :json],
-    pass: ["*/*"],
+    parsers: [:json],
+    pass: ["application/json"],
     json_decoder: Poison
 
   plug Phsand.Router
