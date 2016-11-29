@@ -4,6 +4,7 @@ defmodule ExsandTest do
 
   setup do
     {:ok, started1} = Application.ensure_all_started(:exsand)
+    {:ok, started2} = Application.ensure_all_started(:ranch)
     {:ok, started2} = Application.ensure_all_started(:gun)
     {:ok, started3} = Application.ensure_all_started(:httpoison)
     {:ok, started4} = Application.ensure_all_started(:logger)
@@ -28,11 +29,11 @@ defmodule ExsandTest do
     url = "http://localhost:8080/redis/33"
     response1 = HTTPoison.get!(url)
     assert 404 == response1.status_code
-    response2 = HTTPoison.post!(url, :jsone.encode(%{:name => "spam"}))
+    response2 = HTTPoison.post!(url, Poison.encode!(%{name: "spam"}))
     assert 200 == response2.status_code
     response3 = HTTPoison.get!(url)
     assert 200 == response3.status_code
-    assert %{"name" => "spam"} == :jsone.decode(response3.body)
+    assert %{"name" => "spam"} == Poison.decode!(response3.body)
   end
 
   test "websocket" do

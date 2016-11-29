@@ -10,13 +10,13 @@ defmodule Exsand.RedisHandler do
             req2 = :cowboy_req.reply 404, req
             {:ok, req2, nil}
           name ->
-            body = :jsone.encode %{:name => name}
+            body = Poison.encode!(%{name: name})
             req2 = :cowboy_req.reply 200, [], body, req
             {:ok, req2, nil}
         end
       "POST" ->
         {:ok, body, req2} = :cowboy_req.body(req)
-        %{"name" => name} = :jsone.decode(body)
+        %{"name" => name} = Poison.decode!(body)
         IO.inspect name
         :ok = Exsand.Redis.set id, name
         req3 = :cowboy_req.reply 200, req2
