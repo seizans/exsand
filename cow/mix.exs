@@ -17,6 +17,8 @@ defmodule Cow.Mixfile do
 
   defp deps do
     [{:cowboy, github: "ninenines/cowboy", tag: "2.0.0-pre.3"},
-     {:poison, "~> 3.0.0"}]
+     {:poison, "~> 3.0.0"},
+
+     {:distillery, "0.10.1"}]
   end
 end
