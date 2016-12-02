@@ -1,20 +1,19 @@
 defmodule Ran do
   use Application
 
-  # See http://elixir-lang.org/docs/stable/elixir/Application.html
-  # for more information on OTP Applications
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
-
-    # Define workers and child supervisors to be supervised
+    :ok = start_ranch()
     children = [
-      # Starts a worker by calling: Ran.Worker.start_link(arg1, arg2, arg3)
-      # worker(Ran.Worker, [arg1, arg2, arg3]),
     ]
-
-    # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Ran.Supervisor]
     Supervisor.start_link(children, opts)
+  end
+
+  defp start_ranch() do
+    {:ok, _} = :ranch.start_listener(:ran, 100, :ranch_tcp,
+                                     [{:port, 5555}],
+                                     Ran.Echo, [])
+    :ok
   end
 end
