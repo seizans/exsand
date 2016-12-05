@@ -13,6 +13,7 @@ defmodule Cow do
   defp start_cowboy() do
     dispatch = :cowboy_router.compile([
         {:_, [{"/hello", Cow.HelloHandler, []},
+              {"/ws", Cow.WsHandler, []},
              ]}
     ])
     {:ok, _} = :cowboy.start_http(:cow,
