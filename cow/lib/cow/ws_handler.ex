@@ -2,6 +2,7 @@ defmodule Cow.WsHandler do
   @behaviour :cowboy_websocket
 
   def init(req, _opts) do
+    IO.puts "WebSocket connected"
     {:cowboy_websocket, req, %{count: 0}}
   end
 
