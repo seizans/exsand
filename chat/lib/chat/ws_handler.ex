@@ -7,7 +7,9 @@ defmodule Chat.WsHandler do
   end
 
   def websocket_handle({:text, "player_id: " <> player_id}, req, state) do
+    # TODO(seizans): 本当はこのユーザー処理は connect 時にやるべき
     IO.puts player_id
+    # TODO(seizans): Room に登録する
     {:reply, {:text, "Hello #{player_id}"}, req, state}
   end
   def websocket_handle({:text, "comment: " <> comment}, req, state) do
