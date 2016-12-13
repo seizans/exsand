@@ -4,7 +4,7 @@ defmodule Chat.Application do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
     children = [supervisor(Chat.RoomSupervisor, []),
-                worker(Chat.Registry, [])]
+                supervisor(Registry, [:unique, Chat.Room.Proc])]
     opts = [strategy: :one_for_one, name: Chat.Supervisor]
     start_cowboy()
     Supervisor.start_link(children, opts)

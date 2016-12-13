@@ -10,8 +10,7 @@ defmodule Chat.Room do
   end
 
   defp via_tuple(room_name) do
-    {:via, :gproc, {:n, :l, {:chat_room, room_name}}}
-    # {:via, Chat.Registry, {:chat_room, room_name}}
+    {:via, Registry, {Chat.Room.Proc, room_name}}
   end
 
 
