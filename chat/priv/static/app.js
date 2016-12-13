@@ -4,6 +4,12 @@ var ws = new WebSocket('ws://localhost:8080/ws');
 ws.onmessage = function(e) {console.log(e)};
 
 
+var create_room = function create_room() {
+    var room_name = document.getElementById("room_name").value;
+    console.log("creating room: " + room_name);
+    ws.send('room_name: ' + room_name);
+};
+
 var ws_start = function ws_start() {
     var player_id = document.getElementById("player_id").value;
     console.log(player_id);

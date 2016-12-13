@@ -6,6 +6,11 @@ defmodule Chat.WsHandler do
     {:cowboy_websocket, req, %{}}
   end
 
+  def websocket_handle({:text, "room_name: " <> room_name}, req, state) do
+    IO.puts("Room name: #{room_name}")
+    {:ok, _pid} = Chat.RoomSupervisor.start_room(room_name)
+    {:reply, {:text, "#{room_name} CREATED"}, req, state}
+  end
   def websocket_handle({:text, "player_id: " <> player_id}, req, state) do
     # TODO(seizans): 本当はこのユーザー処理は connect 時にやるべき
     IO.puts player_id
