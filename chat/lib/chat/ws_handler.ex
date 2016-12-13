@@ -6,13 +6,19 @@ defmodule Chat.WsHandler do
     {:cowboy_websocket, req, %{count: 0}}
   end
 
+  def websocket_handle({:text, "player_id: " <> player_id}, req, state) do
+    IO.puts player_id
+    {:reply, {:text, "Hello #{player_id}"}, req, state}
+  end
+  def websocket_handle({:text, "comment: " <> comment}, req, state) do
+    IO.puts comment
+    {:reply, {:text, "#{comment} ACCEPTED"}, req, state}
+  end
   def websocket_handle({:text, "inc"}, req, %{count: count} = state) do
     new_count = count + 1
     IO.puts "Now the count is increased to #{new_count}"
-    {:reply,
-     {:text, Integer.to_string(new_count)},
-     req,
-     %{state | count: new_count}}
+    {:reply, {:text, Integer.to_string(new_count)},
+     req, %{state | count: new_count}}
   end
   def websocket_handle({:text, "reset_count"}, req, state) do
     IO.puts "Count is reset to 0"

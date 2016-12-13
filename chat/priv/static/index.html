@@ -5,7 +5,10 @@
         <h1>HELLO COWBOY</h1>
         <div>
             <input type="text" id="player_id" />
-            <input type="button" onclick="ws_start();" />
+            <input type="button" value="ws_connect" onclick="ws_start();" />
+
+            <input type="text" id="comment" />
+            <input type="button" value="Send comment" onclick="send_comment();" />
         </div>
         <script src="app.js"></script>
     </body>
