@@ -13,10 +13,12 @@ defmodule Chat.Application do
   defp start_cowboy() do
     dispatch = :cowboy_router.compile([
       {:_, [{"/hello", Chat.HelloHandler, []},
+            {"/ws", Chat.WsHandler, []},
             {"/", :cowboy_static, {:priv_file, :chat, "static/index.html"}},
+            {"/app.js", :cowboy_static, {:priv_file, :chat, "static/app.js"}},
            ]}
     ])
-    {:ok, _} = :cowboy.start_http(:cow,
+    {:ok, _} = :cowboy.start_http(:chat,
                                   100,
                                   [{:ip, {0, 0, 0, 0}},
                                    {:port, 8080},
