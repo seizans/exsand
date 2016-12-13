@@ -1,20 +1,24 @@
 defmodule Chat.Room do
   use GenServer
 
-  def add_message(message) do
-    GenServer.cast(:chat_room, {:add_message, message})
+  def add_message(room_name, message) do
+    GenServer.cast(via_tuple(room_name), {:add_message, message})
   end
 
-  def get_messages() do
-    GenServer.call(:chat_room, :get_messages)
+  def get_messages(room_name) do
+    GenServer.call(via_tuple(room_name), :get_messages)
+  end
+
+  defp via_tuple(room_name) do
+    {:via, Chat.Registry, {:chat_room, room_name}}
   end
 
 
-  def start_link() do
-    GenServer.start_link(__MODULE__, [], [name: :chat_room])
+  def start_link(room_name) do
+    GenServer.start_link(__MODULE__, :ok, [name: via_tuple(room_name)])
   end
 
-  def init([]) do
+  def init(:ok) do
     {:ok, []}
   end
 
