@@ -3,7 +3,7 @@ defmodule Chat.WsHandler do
 
   def init(req, _opts) do
     IO.puts "WebSocket connected"
-    {:cowboy_websocket, req, %{}}
+    {:cowboy_websocket, req, %{room_name: nil, player_id: nil}}
   end
 
   def websocket_handle({:text, body}, req, state) do
@@ -21,26 +21,17 @@ defmodule Chat.WsHandler do
     {:stop, req, state}
   end
 
-  defp handle(%{"comment" => comment,
-                "player_id" => player_id,
-                "room_name" => room_name}, req, state) do
-    IO.puts(room_name)
-    IO.puts(player_id)
-    IO.puts(comment)
-    Chat.Room.publish(room_name, comment)
-    {:noreply, req, state}
-  end
-  defp handle(%{"player_id" => player_id,
-                "room_name" => room_name}, req, state) do
-    IO.puts(room_name)
-    # TODO(seizans): 本当はこのユーザー処理は connect 時にやるべき
-    IO.puts(player_id)
-    :ok = Chat.Room.join_room(room_name, player_id, self())
-    {:reply, {:text, "Hello #{player_id}"}, req, state}
-  end
   defp handle(%{"room_name" => room_name}, req, state) do
-    IO.puts("Room name: #{room_name}")
-    {:reply, {:text, "#{room_name} CREATED"}, req, state}
+    {:reply, {:text, "#{room_name} CREATED"}, req, %{state | room_name: room_name}}
+  end
+  defp handle(%{"player_id" => player_id}, req, %{room_name: room_name} = state) do
+    # TODO(seizans): 本当はこのユーザー処理は connect 時にやるべき
+    {:ok, _pid} = Chat.Room.join_room(room_name, player_id)
+    {:reply, {:text, "Hello #{player_id}"}, req, %{state | player_id: player_id}}
+  end
+  defp handle(%{"comment" => comment}, req, %{room_name: room_name, player_id: _player_id} = state) do
+    Chat.Room.publish(room_name, comment)
+    {:ok, req, state}
   end
 
   def websocket_info({:broadcast, message}, req, state) do
