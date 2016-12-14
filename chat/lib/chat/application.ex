@@ -4,8 +4,8 @@ defmodule Chat.Application do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
     children = [supervisor(Chat.RoomSupervisor, []),
-                supervisor(Registry, [:unique, Chat.Room.Proc], [id: make_ref()]),
-                supervisor(Registry, [:duplicate, Chat.Room.Topic], [id: make_ref()])]
+                supervisor(Registry, [:unique, Chat.Room.Topic], [id: make_ref()]),
+                supervisor(Registry, [:duplicate, Chat.Room.Members], [id: make_ref()])]
     opts = [strategy: :one_for_one, name: Chat.Supervisor]
     start_cowboy()
     Supervisor.start_link(children, opts)

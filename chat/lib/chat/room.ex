@@ -5,13 +5,16 @@ defmodule Chat.Room do
     GenServer.cast(via_tuple(room_name), {:publish, message})
   end
 
-   def join_room(room_name, _user_name) do
-     Registry.register(Chat.Room.Topic, room_name, nil)
-   end
+  def join_room(room_name, _user_name) do
+    case Registry.register(Chat.Room.Members, room_name, nil) of
+      {:ok, _} -> :ok
+      error -> error
+    end
+  end
 
-   defp via_tuple(room_name) do
-     {:via, Registry, {Chat.Room.Proc, room_name}}
-   end
+  defp via_tuple(room_name) do
+    {:via, Registry, {Chat.Room.Topic, room_name}}
+  end
 
 
   def start_link(room_name) do
@@ -23,8 +26,8 @@ defmodule Chat.Room do
   end
 
   def handle_cast({:publish, message}, %{room_name: room_name} = state) do
-    Registry.dispatch(Chat.Room.Topic, room_name, fn entries ->
-      for {pid, nil} <- entries, do: send(pid, {:broadcast, message})
+    Registry.dispatch(Chat.Room.Members, room_name, fn members ->
+      for {pid, nil} <- members, do: send(pid, {:broadcast, message})
     end)
     {:noreply, state}
   end
