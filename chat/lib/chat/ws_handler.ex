@@ -21,6 +21,10 @@ defmodule Chat.WsHandler do
     {:stop, req, state}
   end
 
+  defp handle(%{"player_id" => player_id, "room_name" => room_name}, req, state) do
+    {:ok, _pid} = Chat.Room.join_room(room_name, player_id)
+    {:reply, {:text, "Hello #{player_id}"}, req, %{state | player_id: player_id, room_name: room_name}}
+  end
   defp handle(%{"room_name" => room_name}, req, state) do
     case Chat.RoomSupervisor.start_room(room_name) do
       {:ok, _pid} ->
@@ -28,10 +32,6 @@ defmodule Chat.WsHandler do
       {:error, {:already_started, _pid}} ->
         {:reply, {:text, "#{room_name} IS ALREADY CREATED"}, req, state}
     end
-  end
-  defp handle(%{"player_id" => player_id, "room_name" => room_name}, req, state) do
-    {:ok, _pid} = Chat.Room.join_room(room_name, player_id)
-    {:reply, {:text, "Hello #{player_id}"}, req, %{state | player_id: player_id, room_name: room_name}}
   end
   defp handle(%{"comment" => comment}, req, %{room_name: room_name, player_id: _player_id} = state) do
     Chat.Room.publish(room_name, comment)
