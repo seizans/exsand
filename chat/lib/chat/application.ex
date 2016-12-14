@@ -15,7 +15,6 @@ defmodule Chat.Application do
     dispatch = :cowboy_router.compile([
       {:_, [{"/hello", Chat.HelloHandler, []},
             {"/ws", Chat.WsHandler, []},
-            {"/room", Chat.RoomHandler, []},
             {"/", :cowboy_static, {:priv_file, :chat, "static/index.html"}},
             {"/app.js", :cowboy_static, {:priv_file, :chat, "static/app.js"}},
            ]}
