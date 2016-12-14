@@ -14,9 +14,10 @@ var create_room = function create_room() {
 
 var ws_start = function ws_start() {
     var player_id = document.getElementById("player_id").value;
+    var room_name = document.getElementById("room_name").value;
     console.log(player_id);
     // 本当は header に player_id 入れて送りたい
-    var payload = JSON.stringify({player_id: player_id});
+    var payload = JSON.stringify({player_id: player_id, room_name: room_name});
     console.log(payload);
     ws.send(payload);
 };
