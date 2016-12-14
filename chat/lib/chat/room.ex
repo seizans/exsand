@@ -6,10 +6,7 @@ defmodule Chat.Room do
   end
 
   def join_room(room_name, _user_name) do
-    case Registry.register(Chat.Room.Members, room_name, nil) of
-      {:ok, _} -> :ok
-      error -> error
-    end
+    Registry.register(Chat.Room.Members, room_name, nil)
   end
 
   defp via_tuple(room_name) do
