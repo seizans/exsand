@@ -16,6 +16,10 @@ defmodule Phalanx.Mixfile do
   end
 
   defp deps do
-    []
+    [{:cowboy, github: "ninenines/cowboy", tag: "2.0.0-pre.6"},
+     {:poison, "~> 3.1"},
+     {:httpoison, "~> 0.11", runtime: false, only: [:test]},
+     {:credo, "~> 0.5.3", runtime: false, only: [:dev, :test]},
+     {:distillery, "~> 1.1.0", runtime: false}]
   end
 end
