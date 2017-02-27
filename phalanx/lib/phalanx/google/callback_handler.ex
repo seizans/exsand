@@ -11,6 +11,14 @@ defmodule Phalanx.Google.CallbackHandler do
                        host: "accounts.google.com",
                        path: "/o/oauth2/token"}
 
+  defmodule JwtHeader do
+    defstruct [:alg, :kid]
+  end
+
+  defmodule IdToken do
+    defstruct [:at_hash, :aud, :azp, :exp, :iat, :iss, :sub]
+  end
+
   def init(req, [] = _opts) do
     case :cowboy_req.match_qs([{:code, :nonempty, nil}, {:state, :nonempty, nil}, {:error, :nonempty, nil}], req) do
       %{code: code, state: state, error: nil} ->
@@ -57,8 +65,39 @@ defmodule Phalanx.Google.CallbackHandler do
   defp parse_response(body) do
     # TODO(seizans): id_token を検証する
     %{"access_token" => access_token,
-      "expires_in" => 3600,
+      "expires_in" => expires_in,
       "id_token" => id_token,
       "token_type" => "Bearer"} = Poison.decode!(body)
+    # expires_in は 3600 や 3599
+    verify_id_token(id_token)
+
+  end
+
+  defp verify_id_token(id_token) do
+    [encoded_header, encoded_claims, signature] = String.split(id_token, ".")
+    header = encoded_header
+             |> Base.url_decode64!(padding: false)
+             |> Poison.decode!()
+    claims = encoded_claims
+             |> Base.url_decode64!(padding: false)
+             |> Poison.decode!()
+    %{"alg" => alg,
+      "kid" => kid} = header
+    %{"at_hash" => at_hash,
+      "aud" => aud,
+      "azp" => azp,
+      "exp" => exp,
+      "iat" => iat,
+      "iss" => iss,
+      "sub" => sub} = claims
+    # 1. Verify that the ID token is properly signed by the issuer. Google-issued tokens are signed using one of the certificates found at the URI specified in the jwks_uri field of the discovery document.
+    # 2. Verify that the value of iss in the ID token is equal to https://accounts.google.com or accounts.google.com.
+    true = iss in ["https://accounts.google.com", "accounts.google.com"]
+    # 3. Verify that the value of aud in the ID token is equal to your app’s client ID.
+    true = aud == @client_id
+    # 4. Verify that the expiry time (exp) of the ID token has not passed.
+    unix_now = DateTime.utc_now |> DateTime.to_unix()
+    true = unix_now < exp
+
   end
 end

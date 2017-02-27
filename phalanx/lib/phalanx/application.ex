@@ -4,6 +4,7 @@ defmodule Phalanx.Application do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
     children = [
+      worker(Phalanx.Google.Discovery, []),
     ]
     opts = [strategy: :one_for_one, name: Phalanx.Supervisor]
     start_cowboy()
